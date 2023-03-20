@@ -1,0 +1,19 @@
+{
+  "name": "SpotiPi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/capturetheworld/SpotiPi.git",
+  "author": "Ian, Vivek, Dan, Alok",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "start": "concurrently \"yarn workspace frontend start\" \"yarn workspace backend start\" "
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
