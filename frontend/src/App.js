@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './pictures/spotipi.png';
 import './App.css';
 
 function App() {
@@ -7,15 +7,17 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Welcome to the beginning of SpotiPi!
+
         </p>
+        <button>LOGIN</button>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="https://spotify.com"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Spotify's website
         </a>
       </header>
     </div>
