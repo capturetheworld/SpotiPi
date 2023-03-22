@@ -12,9 +12,10 @@ var request = require('request'); // "Request" library
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
+var config = require('./config')
 
-var client_id = '38b9105892da420caf0bf63575c33deb'; // Your client id
-var client_secret = '873841b5bcb64adf8a1443b5531885bc'; // Your secret
+var client_id = config.client_id;
+var client_secret = config.client_secret;
 var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 
 /**
