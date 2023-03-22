@@ -13,8 +13,8 @@ var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
-var client_id = '<Your cliend Id here>'; // Your client id
-var client_secret = '<Your client secret here>'; // Your secret
+var client_id = '38b9105892da420caf0bf63575c33deb'; // Your client id
+var client_secret = '873841b5bcb64adf8a1443b5531885bc'; // Your secret
 var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 
 /**
@@ -35,6 +35,76 @@ var generateRandomString = function (length) {
 var stateKey = 'spotify_auth_state';
 
 var app = express();
+
+var getRequest = function(options, res) {
+    var statusCode = 500;
+    request.get(options, function (error, response, body) {
+        if (!error && response.statusCode === 204) {
+            console.log(body)
+            statusCode = 204
+        }
+        else {
+            console.log("Error: " + error)
+            console.log(response)
+        }
+        res.send({
+            'statusCode': statusCode,
+            'spotifyResponse': response
+        })
+    })
+}
+
+var putRequest = function(options, res) {
+    var statusCode = 500;
+    request.put(options, function (error, response, body) {
+        if (!error && response.statusCode === 204) {
+            console.log(body)
+            statusCode = 204
+        }
+        else {
+            console.log("Error: " + error)
+            console.log(response)
+        }
+        res.send({
+            'statusCode': statusCode,
+            'spotifyResponse': response
+        })
+    });
+}
+
+var postRequest = function(options, res) {
+    var statusCode = 500;
+    request.post(options, function (error, response, body) {
+        if (!error && response.statusCode === 204) {
+            console.log(body)
+            statusCode = 204
+        }
+        else {
+            console.log("Error: " + error)
+            console.log(response)
+        }
+        res.send({
+            'statusCode': statusCode,
+            'spotifyResponse': response
+        })
+    });
+}
+
+// var playerControls = function(req, res, command) {
+//     var access_token = req.query.access_token;
+//     var active_device = req.query.active_device;
+//
+//     var player_options = {
+//         url: 'https://api.spotify.com/v1/me/player/' + command,
+//         headers: { 'Authorization': 'Bearer ' + access_token },
+//         form: {
+//             device_id: active_device
+//         },
+//         json: true
+//     }
+//     console.log(player_options)
+//     putRequest(player_options, res)
+// }
 
 app.use(express.static(__dirname + '/public'))
     .use(cors())
@@ -175,6 +245,9 @@ app.get('/get_devices', function (req, res) {
         else {
             console.log("Error: " + error)
             console.log(response)
+            res.send({
+                'error': 'Suffered a fatal error ' + response.statusCode
+            })
         }
     });
 
@@ -193,58 +266,90 @@ app.get('/active_device', function (req, res) {
         if (!error && response.statusCode === 200) {
             var active_device = body.device.id;
             console.log(active_device)
-            req.send({
+            res.send({
                 'active_device': active_device
             })
         }
         else {
             console.log("Error: " + error)
-            console.log(response)
+            // console.log(response)
+            res.send({
+                'error': 'Suffered a fatal error ' + error
+            })
         }
     });
 });
 
-app.get('/pause', function (req, res) {
+app.get('/state', function (req, res) {
     var access_token = req.query.access_token;
-    var active_device = req.query.active_device;
     var options = {
         url: 'https://api.spotify.com/v1/me/player',
         headers: { 'Authorization': 'Bearer ' + access_token },
         json: true
     }
     console.log(options)
+    getRequest(options, res)
+})
 
-    request.get(options, function (error, response, body) {
-        if (!error && response.statusCode === 200) {
-            var active_device = body.device.id;
-            console.log(active_device)
+app.put('/play', function(req, res) {
+    var access_token = req.query.access_token;
 
+    var play_options = {
+        url: 'https://api.spotify.com/v1/me/player/play',
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        json: true
+    }
+    console.log(play_options)
 
-            var pause_options = {
-                url: 'https://api.spotify.com/v1/me/player/pause',
-                headers: { 'Authorization': 'Bearer ' + access_token },
-                form: {
-                    device_id: active_device
-                },
-                json: true
-            }
+    putRequest(play_options, res)
+    // playerControls(req, res, 'play')
+});
 
-            request.put(pause_options, function (error, response, body) {
-                if (!error && response.statusCode === 204) {
-                    console.log(body)
-                }
-                else {
-                    console.log("Error: " + error)
-                    console.log(response)
-                }
-            });
-        }
-        else {
-            console.log("Error: " + error)
-            console.log(response)
-        }
-    })
+app.put('/pause', function (req, res) {
+    var access_token = req.query.access_token;
+    var active_device = req.query.active_device;
 
+    var pause_options = {
+        url: 'https://api.spotify.com/v1/me/player/pause',
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        form: {
+            device_id: active_device
+        },
+        json: true
+    }
+
+    putRequest(pause_options, res)
+    // playerControls(req, res, 'pause')
+})
+
+app.post('/next', function(req, res) {
+    var access_token = req.query.access_token;
+    var active_device = req.query.active_device;
+
+    var next_options = {
+        url: 'https://api.spotify.com/v1/me/player/next',
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        form: {
+            device_id: active_device
+        },
+        json: true
+    }
+    postRequest(next_options, res)
+})
+
+app.post('/previous', function(req, res) {
+    var access_token = req.query.access_token;
+    var active_device = req.query.active_device;
+
+    var next_options = {
+        url: 'https://api.spotify.com/v1/me/player/previous',
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        form: {
+            device_id: active_device
+        },
+        json: true
+    }
+    postRequest(next_options, res)
 })
 
 console.log('Listening on 8888');
