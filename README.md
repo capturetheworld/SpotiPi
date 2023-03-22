@@ -8,6 +8,7 @@ const config = {
     client_id: '<Your client_id here>',
     client_secret: '<Your secret here>'
 }
+module.exports = config;
 ```
 Without seting up the keys your application will not be able to communicate with Spotify. For details on how to generate the Id and the secret refer to the [Spotify developer page](https://developer.spotify.com/documentation/general/guides/authorization/app-settings/).
 
