@@ -7,16 +7,48 @@
  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
  */
 
-var express = require('express'); // Express web server framework
-var request = require('request'); // "Request" library
-var cors = require('cors');
-var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
-var config = require('./config')
+const express = require('express'); // Express web server framework
+const cors = require('cors');
+const config = require('./config')
+const bodyParser = require("body-parser")
+const querystring = require('querystring');
+const cookieParser = require('cookie-parser');
+const SpotifyWebApi = require('spotify-web-api-node')
+// var request = require('request'); // "Request" library
+
+const app = express();
+app.use(cors())
+app.options('*', cors());
+app.use(cookieParser());
+app.use(bodyParser.json())
 
 var client_id = config.client_id;
 var client_secret = config.client_secret;
-var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+
+client_id = '38b9105892da420caf0bf63575c33deb'
+client_secret = '3f195c206011454baa9ea813cd4b0387'
+
+var redirect_uri = 'http://localhost:3000'; // Your redirect uri
+
+
+var stateKey = 'spotify_auth_state';
+
+
+// var playerControls = function(req, res, command) {
+    //     var access_token = req.query.access_token;
+    //     var active_device = req.query.active_device;
+    //
+    //     var player_options = {
+        //         url: 'https://api.spotify.com/v1/me/player/' + command,
+        //         headers: { 'Authorization': 'Bearer ' + access_token },
+        //         form: {
+            //             device_id: active_device
+//         },
+//         json: true
+//     }
+//     console.log(player_options)
+//     putRequest(player_options, res)
+// 
 
 /**
  * Generates a random string containing numbers and letters
@@ -33,99 +65,33 @@ var generateRandomString = function (length) {
     return text;
 };
 
-var stateKey = 'spotify_auth_state';
+app.get('/', function (req, res) {
+    console.log(client_id, client_secret)
+    res.send('Hello from SpotiPi backend!')
+});
 
-var app = express();
+app.post('/login', function (req, res) {
+    const code = req.body.code
 
-var getRequest = function(options, res) {
-    var statusCode = 500;
-    request.get(options, function (error, response, body) {
-        if (!error && response.statusCode === 204) {
-            console.log(body)
-            statusCode = 204
-        }
-        else {
-            console.log("Error: " + error)
-            console.log(response)
-        }
-        res.send({
-            'statusCode': statusCode,
-            'spotifyResponse': response
+    const spotifyApi = new SpotifyWebApi({
+        redirectUri:'http://localhost:3000',
+        clientId: client_id,
+        clientSecret: client_secret
+    })
+
+    spotifyApi
+    .authorizationCodeGrant(code)
+    .then(data => {
+        res.json({
+            accessToken: data.body.access_token,
+            refreshToken: data.body.refresh_token,
+            expires_In: data.body.expires_in
         })
     })
-}
-
-var putRequest = function(options, res) {
-    var statusCode = 500;
-    request.put(options, function (error, response, body) {
-        if (!error && response.statusCode === 204) {
-            console.log(body)
-            statusCode = 204
-        }
-        else {
-            console.log("Error: " + error)
-            console.log(response)
-        }
-        res.send({
-            'statusCode': statusCode,
-            'spotifyResponse': response
-        })
-    });
-}
-
-var postRequest = function(options, res) {
-    var statusCode = 500;
-    request.post(options, function (error, response, body) {
-        if (!error && response.statusCode === 204) {
-            console.log(body)
-            statusCode = 204
-        }
-        else {
-            console.log("Error: " + error)
-            console.log(response)
-        }
-        res.send({
-            'statusCode': statusCode,
-            'spotifyResponse': response
-        })
-    });
-}
-
-// var playerControls = function(req, res, command) {
-//     var access_token = req.query.access_token;
-//     var active_device = req.query.active_device;
-//
-//     var player_options = {
-//         url: 'https://api.spotify.com/v1/me/player/' + command,
-//         headers: { 'Authorization': 'Bearer ' + access_token },
-//         form: {
-//             device_id: active_device
-//         },
-//         json: true
-//     }
-//     console.log(player_options)
-//     putRequest(player_options, res)
-// }
-
-app.use(express.static(__dirname + '/public'))
-    .use(cors())
-    .use(cookieParser());
-
-app.get('/login', function (req, res) {
-
-    var state = generateRandomString(16);
-    res.cookie(stateKey, state);
-
-    // your application requests authorization
-    var scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state';
-    res.redirect('https://accounts.spotify.com/authorize?' +
-        querystring.stringify({
-            response_type: 'code',
-            client_id: client_id,
-            scope: scope,
-            redirect_uri: redirect_uri,
-            state: state
-        }));
+    .catch((err) => {
+        console.log(err)
+        res.sendStatus(400)
+    })
 });
 
 app.get('/callback', function (req, res) {
