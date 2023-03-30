@@ -7,8 +7,11 @@ import AuthContext from './context/AuthContext'
 
 function App() {
     const [code, setCode] = useState('')
+    const [accessToken, setAccessToken] = useState('')
+    const [refreshToken, setRefreshToken] = useState('')
+    const [expiresIn, setExpiresIn] = useState('')
     return (
-        <AuthContext.Provider value = {{code, setCode}}>
+        <AuthContext.Provider value = {{code, setCode, accessToken, setAccessToken, refreshToken, setRefreshToken, expiresIn, setExpiresIn}}>
             <BrowserRouter>
                 <Routes>
                     <Route exact path='/' element={<LandingPage />} />
