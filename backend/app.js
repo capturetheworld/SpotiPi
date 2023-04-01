@@ -28,21 +28,21 @@ var client_secret = config.client_secret;
 client_id = '38b9105892da420caf0bf63575c33deb'
 client_secret = '3f195c206011454baa9ea813cd4b0387'
 
-var redirect_uri = 'http://localhost:3000'; // Your redirect uri
+var redirect_uri = 'http://localhost:5000'; // Your redirect uri
 
 
 var stateKey = 'spotify_auth_state';
 
 
 // var playerControls = function(req, res, command) {
-    //     var access_token = req.query.access_token;
-    //     var active_device = req.query.active_device;
-    //
-    //     var player_options = {
-        //         url: 'https://api.spotify.com/v1/me/player/' + command,
-        //         headers: { 'Authorization': 'Bearer ' + access_token },
-        //         form: {
-            //             device_id: active_device
+//     var access_token = req.query.access_token;
+//     var active_device = req.query.active_device;
+//
+//     var player_options = {
+//         url: 'https://api.spotify.com/v1/me/player/' + command,
+//         headers: { 'Authorization': 'Bearer ' + access_token },
+//         form: {
+//             device_id: active_device
 //         },
 //         json: true
 //     }
@@ -74,24 +74,24 @@ app.post('/login', function (req, res) {
     const code = req.body.code
 
     const spotifyApi = new SpotifyWebApi({
-        redirectUri:'http://localhost:3000',
+        redirectUri: 'http://localhost:5000',
         clientId: client_id,
         clientSecret: client_secret
     })
 
     spotifyApi
-    .authorizationCodeGrant(code)
-    .then(data => {
-        res.json({
-            accessToken: data.body.access_token,
-            refreshToken: data.body.refresh_token,
-            expires_In: data.body.expires_in
+        .authorizationCodeGrant(code)
+        .then(data => {
+            res.json({
+                accessToken: data.body.access_token,
+                refreshToken: data.body.refresh_token,
+                expires_In: data.body.expires_in
+            })
         })
-    })
-    .catch((err) => {
-        console.log(err)
-        res.sendStatus(400)
-    })
+        .catch((err) => {
+            console.log(err)
+            res.sendStatus(400)
+        })
 });
 
 app.get('/callback', function (req, res) {
@@ -258,7 +258,7 @@ app.get('/state', function (req, res) {
     getRequest(options, res)
 })
 
-app.put('/play', function(req, res) {
+app.put('/play', function (req, res) {
     var access_token = req.query.access_token;
 
     var play_options = {
@@ -289,7 +289,7 @@ app.put('/pause', function (req, res) {
     // playerControls(req, res, 'pause')
 })
 
-app.post('/next', function(req, res) {
+app.post('/next', function (req, res) {
     var access_token = req.query.access_token;
     var active_device = req.query.active_device;
 
@@ -304,7 +304,7 @@ app.post('/next', function(req, res) {
     postRequest(next_options, res)
 })
 
-app.post('/previous', function(req, res) {
+app.post('/previous', function (req, res) {
     var access_token = req.query.access_token;
     var active_device = req.query.active_device;
 
