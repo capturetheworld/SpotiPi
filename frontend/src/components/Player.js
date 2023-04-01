@@ -2,15 +2,22 @@ import { React, useState } from 'react';
 import 'react-seekbar-component/dist/index.css';
 import SeekBar from 'react-seekbar-component';
 import '../styles/player.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSquare } from "@fortawesome/free-solid-svg-icons"
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPause, faPlay, faForwardFast, faBackwardFast, faVolumeLow, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 
 
 
 
 const Player = (props) => {
-    const [value, setValue] = useState(0)
+    const [value, setValue] = useState(0);
+    const [playing, setisPlaying] = useState(false);
+
+    const togglePlaying = () => {
+        setisPlaying((currValue) => !currValue);
+
+    }
+
+
 
 
     return (
@@ -27,12 +34,12 @@ const Player = (props) => {
                 progress={89}
             />
             <div className='button-container'>
-                <button class="button button1"><FontAwesome icon={faSquare} />
+                <button class="button button1"><FontAwesomeIcon icon={faBackwardFast} />
                 </button>
-                <button class="button button2">Play/Pause</button>
-                <button class="button button3">Next</button>
-                <button class="button button4">Volume Down</button>
-                <button class="button button5">Volume Up</button>
+                <button class="button button2" onClick={togglePlaying}>{playing ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />} </button>
+                <button class="button button3"><FontAwesomeIcon icon={faForwardFast} /></button>
+                <button class="button button4"><FontAwesomeIcon icon={faVolumeLow} /></button>
+                <button class="button button5"><FontAwesomeIcon icon={faVolumeHigh} /></button>
             </div>
 
         </div>
