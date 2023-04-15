@@ -28,7 +28,7 @@ var client_secret = config.client_secret;
 client_id = '38b9105892da420caf0bf63575c33deb'
 client_secret = '3f195c206011454baa9ea813cd4b0387'
 
-var redirect_uri = 'http://localhost:5000'; // Your redirect uri
+var redirect_uri = 'http://localhost:3000'; // Your redirect uri
 
 
 var stateKey = 'spotify_auth_state';

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import '../styles/landing.css';
 import config from "../config";
-import Player from '../components/Player.js';
 
 function LandingPage() {
 	const { setCode } = useContext(AuthContext)
@@ -39,9 +38,6 @@ function LandingPage() {
 					Spotify's website
 				</a>
 			</header>
-			<div className="player-container">
-				<Player />
-			</div>
 		</div >
 	);
 }

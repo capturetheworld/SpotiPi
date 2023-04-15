@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext} from "react";
 import { Button } from '@mui/material'
-import AuthContext from "../context/AuthContext";
-import logo from '../pictures/spotipi.png';
-import '../styles/landing.css';
-import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
+import Player from "../components/Player"
+import logo from '../pictures/spotipi.png';
+import axios from 'axios'
+import '../styles/landing.css';
 
 function Dashbaord() {
     const { code, accessToken, setAccessToken, refreshToken, setRefreshToken, expiresIn, setExpiresIn } = useContext(AuthContext)
@@ -32,6 +33,9 @@ function Dashbaord() {
 			<header className="App-header">
 				<img src={logo} className="App-logo" alt="logo" />
 				<Button>{code}</Button>
+                <div className="player-container">
+				    <Player />
+			    </div>
 			</header>
 		</div>
 	);
