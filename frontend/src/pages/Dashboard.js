@@ -7,7 +7,7 @@ import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 
 function Dashbaord() {
-    const { code, accessToken, setAccessToken, setRefreshToken, setExpiresIn } = useContext(AuthContext)
+    const { code, accessToken, setAccessToken, refreshToken, setRefreshToken, expiresIn, setExpiresIn } = useContext(AuthContext)
 	let navigate = useNavigate();
 
     useEffect(() => {
@@ -23,6 +23,8 @@ function Dashbaord() {
             console.log(err)
 			return navigate('/');
         })
+
+        console.log(accessToken,refreshToken,expiresIn)
     },[code])
 
 	return (
