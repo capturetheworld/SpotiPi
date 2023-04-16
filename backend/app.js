@@ -9,11 +9,11 @@
 
 const express = require('express'); // Express web server framework
 const cors = require('cors');
-const config = require('./config')
 const bodyParser = require("body-parser")
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 const SpotifyWebApi = require('spotify-web-api-node')
+require('dotenv').config({ path: '../.env' })
 // var request = require('request'); // "Request" library
 
 const app = express();
@@ -22,13 +22,10 @@ app.options('*', cors());
 app.use(cookieParser());
 app.use(bodyParser.json())
 
-var client_id = config.client_id;
-var client_secret = config.client_secret;
+let client_id = process.env.CLIENT_ID;
+let client_secret = process.env.CLIENT_SECRET;
 
-client_id = '38b9105892da420caf0bf63575c33deb'
-client_secret = '3f195c206011454baa9ea813cd4b0387'
-
-var redirect_uri = 'http://localhost:5000'; // Your redirect uri
+var redirect_uri = 'http://localhost:3000'; // Your redirect uri
 
 
 var stateKey = 'spotify_auth_state';
@@ -69,6 +66,12 @@ app.get('/', function (req, res) {
     console.log(client_id, client_secret)
     res.send('Hello from SpotiPi backend!')
 });
+
+app.get('/apival', function (req, res) {
+
+    res.send(client_id);
+});
+
 
 app.post('/login', function (req, res) {
     const code = req.body.code
