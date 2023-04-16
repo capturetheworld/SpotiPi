@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Button } from '@mui/material'
-import AuthContext from "../context/AuthContext";
-import logo from '../pictures/spotipi.png';
-import '../styles/landing.css';
-import axios from 'axios'
 import { useNavigate } from "react-router-dom";
-import Player from '../components/Player.js';
+import AuthContext from "../context/AuthContext";
+import PlayerContext from "../context/PlayerContext";
+import Player from "../components/Player"
+import logo from '../pictures/spotipi.png';
+import axios from 'axios'
+import '../styles/landing.css';
 
 function Dashbaord() {
     const { code, accessToken, setAccessToken, refreshToken, setRefreshToken, expiresIn, setExpiresIn } = useContext(AuthContext)
@@ -28,14 +29,30 @@ function Dashbaord() {
         console.log(accessToken, refreshToken, expiresIn)
     }, [code])
 
+    const getState = () => {
+        let trackName;
+        axios.get('http://localhost:8888/state', {
+            params: {
+                access_token: accessToken
+            }
+        }).then(response => {
+            console.log(response)
+            trackName = response.data.item.name
+            // setProgress(response.data.progress_ms)
+            // setDuration(response.data.duration_ms)
+            // console.log(trackName, progress, duration)
+        })
+        return trackName
+    }
+
     return (
         <div className="App">
-            <header className="App-header">
+            <div className="App-container">
                 <img src={logo} className="App-logo" alt="logo" />
-                <Button>{code}</Button>
-            </header>
-            <div className="player-container">
-                <Player />
+                <Button onClick={getState}>Refresh state</Button>
+                <div className="player-container">
+                    <Player />
+                </div>
             </div>
         </div>
     );

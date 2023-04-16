@@ -8,6 +8,7 @@
  */
 
 const express = require('express'); // Express web server framework
+const request = require('request') // "Request library"
 const cors = require('cors');
 const bodyParser = require("body-parser")
 const querystring = require('querystring');
@@ -213,10 +214,9 @@ app.get('/get_devices', function (req, res) {
             });
         }
         else {
-            console.log("Error: " + error)
-            console.log(response)
             res.send({
-                'error': 'Suffered a fatal error ' + response.statusCode
+                'error': 'Suffered a fatal error ' + response.statusCode,
+                'spotifyResponse': response
             })
         }
     });
@@ -241,10 +241,9 @@ app.get('/active_device', function (req, res) {
             })
         }
         else {
-            console.log("Error: " + error)
-            // console.log(response)
             res.send({
-                'error': 'Suffered a fatal error ' + error
+                'error': 'Suffered a fatal error ' + error,
+                'spotifyResponse': response
             })
         }
     });
@@ -262,7 +261,7 @@ app.get('/state', function (req, res) {
 })
 
 app.put('/play', function (req, res) {
-    var access_token = req.query.access_token;
+    var access_token = req.body.access_token;
 
     var play_options = {
         url: 'https://api.spotify.com/v1/me/player/play',
@@ -276,8 +275,8 @@ app.put('/play', function (req, res) {
 });
 
 app.put('/pause', function (req, res) {
-    var access_token = req.query.access_token;
-    var active_device = req.query.active_device;
+    var access_token = req.body.access_token;
+    var active_device = req.body.active_device;
 
     var pause_options = {
         url: 'https://api.spotify.com/v1/me/player/pause',
@@ -293,8 +292,8 @@ app.put('/pause', function (req, res) {
 })
 
 app.post('/next', function (req, res) {
-    var access_token = req.query.access_token;
-    var active_device = req.query.active_device;
+    var access_token = req.body.access_token;
+    var active_device = req.body.active_device;
 
     var next_options = {
         url: 'https://api.spotify.com/v1/me/player/next',
@@ -308,8 +307,8 @@ app.post('/next', function (req, res) {
 })
 
 app.post('/previous', function (req, res) {
-    var access_token = req.query.access_token;
-    var active_device = req.query.active_device;
+    var access_token = req.body.access_token;
+    var active_device = req.body.active_device;
 
     var next_options = {
         url: 'https://api.spotify.com/v1/me/player/previous',
@@ -321,6 +320,54 @@ app.post('/previous', function (req, res) {
     }
     postRequest(next_options, res)
 })
+
+var getRequest = function (options, res) {
+    var statusCode = 500;
+    request.get(options, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            console.log(body)
+            statusCode = 200
+        }
+        else {
+            // console.log("Error: " + error)
+            // console.log(response)
+            console.log("Failed to get valid request")
+        }
+        res.status(statusCode).send(body)
+    })
+}
+
+var putRequest = function (options, res) {
+    var statusCode = 500;
+    request.put(options, function (error, response, body) {
+        if (!error && response.statusCode === 204) {
+            console.log(body)
+            statusCode = 204
+        }
+        else {
+            console.log("Error: " + error)
+            console.log(response.statusCode)
+            console.log(response.rawHeaders)
+        }
+        res.status(statusCode).send(body)
+    });
+}
+
+var postRequest = function (options, res) {
+    var statusCode = 500;
+    request.post(options, function (error, response, body) {
+        if (!error && response.statusCode === 204) {
+            console.log(body)
+            statusCode = 204
+        }
+        else {
+            console.log("Error: " + error)
+            console.log(response.statusCode)
+            console.log(response.rawHeaders)
+        }
+        res.status(statusCode).send(body)
+    });
+}
 
 console.log('Listening on 8888');
 app.listen(8888);

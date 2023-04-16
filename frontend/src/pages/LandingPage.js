@@ -23,6 +23,9 @@ function LandingPage() {
 		}
 	}, [])
 
+
+	let scope = 'user-read-private+user-read-email+user-read-playback-state+user-modify-playback-state';
+
 	async function getID() {
 		const response = await fetch("http://localhost:8888/apival");
 
@@ -41,7 +44,7 @@ function LandingPage() {
 
 	return (
 		<div className="App">
-			<header className="App-header">
+			<div className="App-container">
 				<img src={logo} className="App-logo" alt="logo" />
 				<p>Welcome to the beginning of SpotiPi! </p>
 				<button onClick={login}>
@@ -49,16 +52,18 @@ function LandingPage() {
 				</button>
 
 
-				<a
-					className="App-link"
-					href="https://spotify.com"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Spotify's website
-				</a>
-			</header>
 
+
+				<div id="footer">
+					<div>Copyright 2023</div>
+					<a
+						className="App-link"
+						href="https://spotify.com"
+						target="_blank"
+						rel="noopener noreferrer"
+					>Spotify's website</a></div>
+
+			</div>
 		</div >
 	);
 }
