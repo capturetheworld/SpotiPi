@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <script>
+    const hash = window.location.hash
+      .substring(1)
+
+      fetch('/token?' + hash)
+      // .then(() => {
+      //     console.log(hash)
+      //     window.close()
+      // })
+  </script>
+</body>
+</html>

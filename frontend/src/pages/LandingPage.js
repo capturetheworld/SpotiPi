@@ -17,10 +17,13 @@ function LandingPage() {
 		}
 	}, [])
 
+	let scope = 'user-read-private+user-read-email+user-read-playback-state+user-modify-playback-state';
+
 	let AUTH_URL = "https://accounts.spotify.com/authorize?" +
 		"client_id=" + config.client_id +
 		"&response_type=code" +
-		"&redirect_uri=http://localhost:3000"
+		"&redirect_uri=http://localhost:3000" + 
+		"&scope=" + scope
 
 	return (
 		<div className="App">
