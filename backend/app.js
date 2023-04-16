@@ -247,7 +247,7 @@ app.get('/active_device', function (req, res) {
 });
 
 app.get('/state', function (req, res) {
-    var access_token = req.body.access_token;
+    var access_token = req.query.access_token;
     var options = {
         url: 'https://api.spotify.com/v1/me/player',
         headers: { 'Authorization': 'Bearer ' + access_token },
@@ -321,19 +321,16 @@ app.post('/previous', function (req, res) {
 var getRequest = function(options, res) {
     var statusCode = 500;
     request.get(options, function (error, response, body) {
-        if (!error && response.statusCode === 204) {
+        if (!error && response.statusCode === 200) {
             console.log(body)
-            statusCode = 204
+            statusCode = 200
         }
         else {
             // console.log("Error: " + error)
             // console.log(response)
             console.log("Failed to get valid request")
         }
-        res.send({
-            'statusCode': statusCode,
-            'spotifyResponse': response
-        })
+        res.status(statusCode).send(body)
     })
 }
 
@@ -346,12 +343,10 @@ var putRequest = function(options, res) {
         }
         else {
             console.log("Error: " + error)
-            console.log(response)
+            console.log(response.statusCode)
+            console.log(response.rawHeaders)
         }
-        res.send({
-            'statusCode': statusCode,
-            'spotifyResponse': response
-        })
+        res.status(statusCode).send(body)
     });
 }
 
@@ -367,10 +362,7 @@ var postRequest = function(options, res) {
             console.log(response.statusCode)
             console.log(response.rawHeaders)
         }
-        res.send({
-            'statusCode': statusCode,
-            'spotifyResponse': response
-        })
+        res.status(statusCode).send(body)
     });
 }
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext} from "react";
 import { Button } from '@mui/material'
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import PlayerContext from "../context/PlayerContext";
 import Player from "../components/Player"
 import logo from '../pictures/spotipi.png';
 import axios from 'axios'
@@ -28,11 +29,27 @@ function Dashbaord() {
         console.log(accessToken,refreshToken,expiresIn)
     },[code])
 
+    const getState = () => {
+        let trackName;
+        axios.get('http://localhost:8888/state', {
+            params: {
+                access_token: accessToken
+            }
+        }).then(response => {
+            console.log(response)
+            trackName = response.data.item.name
+            // setProgress(response.data.progress_ms)
+            // setDuration(response.data.duration_ms)
+            // console.log(trackName, progress, duration)
+        })
+        return trackName
+    }
+
 	return (
 		<div className="App">
 			<header className="App-header">
 				<img src={logo} className="App-logo" alt="logo" />
-				<Button>{code}</Button>
+				<Button onClick={getState}>Refresh state</Button>
                 <div className="player-container">
 				    <Player />
 			    </div>
