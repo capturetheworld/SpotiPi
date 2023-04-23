@@ -3,6 +3,7 @@ import 'react-seekbar-component/dist/index.css';
 import SeekBar from 'react-seekbar-component';
 import '../styles/player.css';
 import AuthContext from "../context/AuthContext";
+import { Button } from "@mui/material"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faPlay, faForwardFast, faBackwardFast, faVolumeLow, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
@@ -104,12 +105,12 @@ const Player = (props) => {
                 progress={89}
             />
             <div className='button-container'>
-                <button class="button button1" onClick={previousTrack}><FontAwesomeIcon icon={faBackwardFast} />
-                </button>
-                <button class="button button2" onClick={togglePlaying}>{playing ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />} </button>
-                <button class="button button3" onClick={nextTrack}><FontAwesomeIcon icon={faForwardFast} /></button>
-                <button class="button button4"><FontAwesomeIcon icon={faVolumeLow} /></button>
-                <button class="button button5"><FontAwesomeIcon icon={faVolumeHigh} /></button>
+                <Button class="button button1" onClick={previousTrack}><FontAwesomeIcon icon={faBackwardFast} />
+                </Button>
+                <Button class="button button2" onClick={togglePlaying}>{playing ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />} </Button>
+                <Button class="button button3" onClick={nextTrack}><FontAwesomeIcon icon={faForwardFast} /></Button>
+                <Button class="button button4"><FontAwesomeIcon icon={faVolumeLow} /></Button>
+                <Button class="button button5"><FontAwesomeIcon icon={faVolumeHigh} /></Button>
             </div>
 
         </div>
