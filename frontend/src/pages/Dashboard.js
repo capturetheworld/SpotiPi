@@ -4,6 +4,7 @@ import AuthContext from "../context/AuthContext";
 import PlayerContext from "../context/PlayerContext";
 import { Button } from '@mui/material'
 import Player from "../components/Player"
+//import Player_Premade from "../components/Player_Premade"
 import Header from "../components/Header";
 import TrackSearchResult from "../components/TrackSearchResults";
 import axios from 'axios'
@@ -20,7 +21,10 @@ var spotifyApi = new SpotifyWebApi({
 
 function Dashbaord() {
     const { code, accessToken, setAccessToken, refreshToken, setRefreshToken, expiresIn, setExpiresIn } = useContext(AuthContext)
+    const { track, setTrack } = useContext(PlayerContext)
     const [searchResults, setSearchResults] = useState([])
+    const [searchText, setSearchText] = useState('');
+    const [playingTrack, setPlayingTrack] = useState()
 
     let navigate = useNavigate();
 
@@ -67,39 +71,32 @@ function Dashbaord() {
         return () => clearInterval(interval)
     }, [refreshToken, expiresIn])
 
-
-    const getState = () => {
-        let trackName;
-        axios.get('http://localhost:8888/state', {
-            params: {
-                access_token: accessToken
-            }
-        }).then(response => {
-            console.log(response)
-            trackName = response.data.item.name
-            // setProgress(response.data.progress_ms)
-            // setDuration(response.data.duration_ms)
-            // console.log(trackName, progress, duration)
-        })
-        return trackName
-    }
+    function chooseTrack(track) {
+        setTrack(track)
+        setSearchText("")
+      }
 
     return (
         <div className="dash">
-            <Header spotifyApi={spotifyApi} searchResults={searchResults} setSearchResults={setSearchResults} />
+            <Header 
+                spotifyApi={spotifyApi} 
+                searchResults={searchResults} 
+                setSearchResults={setSearchResults} 
+                searchText={searchText} 
+                setSearchText={setSearchText}
+            />
             <div className="dash-header">
                 <List>
                     {searchResults.map(track => (
                         <TrackSearchResult
                             track={track}
                             key={track.uri}
+                            chooseTrack={chooseTrack} 
                         />
                     ))}
                 </List>
-                <Button >Refresh state</Button>
-                <div className="player-container">
-                    <Player />
-                </div>
+                {/* <Player_Premade accessToken={accessToken} trackUri={playingTrack?.uri} /> */}
+                <Player />
             </div>
         </div>
     );

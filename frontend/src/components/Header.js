@@ -6,8 +6,7 @@ import AuthContext from "../context/AuthContext";
 import '../styles/header.css';
 //import axios from "axios";
 
-function Header({ spotifyApi, searchResults, setSearchResults }) {
-    const [searchText, setSearchText] = useState('');
+function Header({ spotifyApi, searchResults, setSearchResults, searchText, setSearchText }) {
     const { accessToken } = useContext(AuthContext)
 
     const getSearchResult = () => {

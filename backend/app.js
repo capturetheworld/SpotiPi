@@ -26,8 +26,8 @@ app.use(bodyParser.json())
 var client_id = config.client_id;
 var client_secret = config.client_secret;
 
-client_id = '38b9105892da420caf0bf63575c33deb'
-client_secret = '3f195c206011454baa9ea813cd4b0387'
+client_id = '96138f0d9d044aeca14842aee5e1b792'
+client_secret = '0dfeb60fda2545a28b0038a48961ce22'
 
 var redirect_uri = 'http://localhost:3000'; // Your redirect uri
 

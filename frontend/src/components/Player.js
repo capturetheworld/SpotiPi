@@ -3,7 +3,7 @@ import 'react-seekbar-component/dist/index.css';
 import SeekBar from 'react-seekbar-component';
 import '../styles/player.css';
 import AuthContext from "../context/AuthContext";
-import { Button } from "@mui/material"
+import { IconButton, Stack } from "@mui/material"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faPlay, faForwardFast, faBackwardFast, faVolumeLow, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
@@ -26,16 +26,16 @@ const Player = (props) => {
         axios.get(`http://localhost:8888/active_device`, {
             params: {
                 access_token: accessToken
-            }            
-        }).then(function(response) {
+            }
+        }).then(function (response) {
             console.log(response.data);
-            activeDevice  = response.data['active_device']
+            activeDevice = response.data['active_device']
 
             if (playing) {
                 axios.put('http://localhost:8888/pause', {
                     access_token: accessToken,
                     active_device: activeDevice,
-                }).then(function(response){
+                }).then(function (response) {
                     console.log(response)
                 })
             }
@@ -43,7 +43,7 @@ const Player = (props) => {
                 axios.put('http://localhost:8888/play', {
                     access_token: accessToken,
                     active_device: activeDevice,
-                }).then(function(response){
+                }).then(function (response) {
                     console.log(response)
                 })
             }
@@ -56,14 +56,14 @@ const Player = (props) => {
         axios.get(`http://localhost:8888/active_device`, {
             params: {
                 access_token: accessToken
-            }            
-        }).then(function(response) {
+            }
+        }).then(function (response) {
             console.log(response.data);
-            activeDevice  = response.data['active_device']
+            activeDevice = response.data['active_device']
             axios.post('http://localhost:8888/next', {
                 access_token: accessToken,
                 active_device: activeDevice,
-            }).then(function(response) {
+            }).then(function (response) {
                 console.log(response);
             })
         })
@@ -75,14 +75,14 @@ const Player = (props) => {
         axios.get(`http://localhost:8888/active_device`, {
             params: {
                 access_token: accessToken
-            }            
-        }).then(function(response) {
+            }
+        }).then(function (response) {
             console.log(response.data);
-            activeDevice  = response.data['active_device']
+            activeDevice = response.data['active_device']
             axios.post('http://localhost:8888/previous', {
                 access_token: accessToken,
                 active_device: activeDevice,
-            }).then(function(response) {
+            }).then(function (response) {
                 console.log(response);
             })
         })
@@ -104,14 +104,22 @@ const Player = (props) => {
                 headShadowSize={6}
                 progress={89}
             />
-            <div className='button-container'>
-                <Button class="button button1" onClick={previousTrack}><FontAwesomeIcon icon={faBackwardFast} />
-                </Button>
-                <Button class="button button2" onClick={togglePlaying}>{playing ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />} </Button>
-                <Button class="button button3" onClick={nextTrack}><FontAwesomeIcon icon={faForwardFast} /></Button>
-                <Button class="button button4"><FontAwesomeIcon icon={faVolumeLow} /></Button>
-                <Button class="button button5"><FontAwesomeIcon icon={faVolumeHigh} /></Button>
-            </div>
+
+            <IconButton class="button button1" onClick={previousTrack}>
+                <FontAwesomeIcon icon={faBackwardFast} />
+            </IconButton>
+            <IconButton class="button button2" onClick={togglePlaying}>
+                {playing ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
+            </IconButton>
+            <IconButton class="button button3" onClick={nextTrack}>
+                <FontAwesomeIcon icon={faForwardFast} />
+            </IconButton>
+            <IconButton class="button button4">
+                <FontAwesomeIcon icon={faVolumeLow} />
+            </IconButton>
+            <IconButton class="button button5">
+                <FontAwesomeIcon icon={faVolumeHigh} />
+            </IconButton>
 
         </div>
     );
