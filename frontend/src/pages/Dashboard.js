@@ -5,10 +5,13 @@ import PlayerContext from "../context/PlayerContext";
 import { Button } from '@mui/material'
 import Player from "../components/Player"
 import Header from "../components/Header";
+import TrackSearchResult from "../components/TrackSearchResults";
 import axios from 'axios'
 import SpotifyWebApi from "spotify-web-api-node";
 import '../styles/dashboard.css'
 import config from "../config";
+import { List , Divider } from "@mui/material"
+
 
 var spotifyApi = new SpotifyWebApi({
     clientId: config.client_id,
@@ -17,13 +20,15 @@ var spotifyApi = new SpotifyWebApi({
 
 function Dashbaord() {
     const { code, accessToken, setAccessToken, refreshToken, setRefreshToken, expiresIn, setExpiresIn } = useContext(AuthContext)
+    const [searchResults, setSearchResults] = useState([])
+
     let navigate = useNavigate();
-    
+
     useEffect(() => {
         if (!accessToken) return
         spotifyApi.setAccessToken(accessToken)
-      }, [accessToken])
-    
+    }, [accessToken])
+
     useEffect(() => {
         axios.post('http://localhost:8888/login', { code: code })
             .then(res => {
@@ -57,7 +62,7 @@ function Dashbaord() {
                     console.log(err)
                     return navigate('/');
                 })
-        }, (expiresIn - 60)*1000)
+        }, (expiresIn - 60) * 1000)
 
         return () => clearInterval(interval)
     }, [refreshToken, expiresIn])
@@ -81,8 +86,16 @@ function Dashbaord() {
 
     return (
         <div className="dash">
-            <Header spotifyApi={spotifyApi}/>
+            <Header spotifyApi={spotifyApi} searchResults={searchResults} setSearchResults={setSearchResults} />
             <div className="dash-header">
+                <List>
+                    {searchResults.map(track => (
+                        <TrackSearchResult
+                            track={track}
+                            key={track.uri}
+                        />
+                    ))}
+                </List>
                 <Button >Refresh state</Button>
                 <div className="player-container">
                     <Player />

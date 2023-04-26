@@ -4,33 +4,48 @@ import { Button } from "@mui/material";
 import logo from '../pictures/spotipi.png';
 import AuthContext from "../context/AuthContext";
 import '../styles/header.css';
-import axios from "axios";
+//import axios from "axios";
 
-function Header({ spotifyApi }) {
+function Header({ spotifyApi, searchResults, setSearchResults }) {
     const [searchText, setSearchText] = useState('');
-    const [searchResults, setSearchResults] = useState([])
     const { accessToken } = useContext(AuthContext)
 
+    const getSearchResult = () => {
+        let cancel = false
+        spotifyApi.searchTracks(searchText).then(res => {
+          if (cancel) return
+          setSearchResults(
+            res.body.tracks.items.map(track => {
+              const smallestAlbumImage = track.album.images.reduce(
+                (smallest, image) => {
+                  if (image.height < smallest.height) return image
+                  return smallest
+                },
+                track.album.images[0]
+              )
+    
+              return {
+                artist: track.artists[0].name,
+                title: track.name,
+                uri: track.uri,
+                albumUrl: smallestAlbumImage.url,
+              }
+            })
+          )
+        })
+    
+        return () => (cancel = true)
+    }
+
     useEffect(() => {
-        //console.log(spotifyApi)
-        console.log(searchText)
+        if (!searchText) return setSearchResults([])
         if (!accessToken) return
-        spotifyApi.searchTracks(searchText)
-            .then(res => {
-                console.log(res)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    },[searchText])
+        getSearchResult();
+
+      }, [searchText, accessToken])
 
     const handleClick = async () => {
-        console.log(searchText)
-
-        spotifyApi.searchTracks(searchText)
-        .then(data => {
-            console.log(data)
-        })
+        getSearchResult();
     }
 
     return (
