@@ -1,10 +1,10 @@
 import { createContext } from "react";
 
 const PlayerContext = createContext({
-    trackName:'',
+    track:'',
     progress:0,
     duration:0,
-    setTrackName: () => {},
+    setTrack: () => {},
     setProgress: () => {},
     setDuration: () => {},
 });
