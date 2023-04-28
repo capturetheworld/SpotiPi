@@ -45,6 +45,7 @@ function Search({ setSearchText}) {
                 label="Search song or artist" 
                 variant="outlined" 
                 fullWidth='true'
+                size='small'
                 sx={{ input: {color: "white"} }}
                 onChange={event => setSearchText(event.target.value)}
             />

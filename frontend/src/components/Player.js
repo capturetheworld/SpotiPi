@@ -6,8 +6,7 @@ import AuthContext from "../context/AuthContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faPlay, faForwardFast, faBackwardFast, faVolumeLow, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
-
-
+import { Button } from "@mui/material";
 
 
 const Player = (props) => {

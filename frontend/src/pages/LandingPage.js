@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from "react";
 import logo from '../pictures/spotipi.png';
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import { Button } from '@mui/material'
 import '../styles/landing.css';
 
 
@@ -47,22 +48,9 @@ function LandingPage() {
 			<div className="App-container">
 				<img src={logo} className="App-logo" alt="logo" />
 				<p>Welcome to the beginning of SpotiPi! </p>
-				<button onClick={login}>
+				<Button onClick={login} style={{color: 'white', backgroundColor: '#04aa6d'}}>
 					Login
-				</button>
-
-
-
-
-				<div id="footer">
-					<div>Copyright 2023</div>
-					<a
-						className="App-link"
-						href="https://spotify.com"
-						target="_blank"
-						rel="noopener noreferrer"
-					>Spotify's website</a></div>
-
+				</Button>
 			</div>
 		</div >
 	);
