@@ -10,13 +10,12 @@ import TrackSearchResult from "../components/TrackSearchResults";
 import axios from 'axios'
 import SpotifyWebApi from "spotify-web-api-node";
 import '../styles/dashboard.css'
-import config from "../config";
 import { List, Divider } from "@mui/material"
 
 
 var spotifyApi = new SpotifyWebApi({
-    clientId: config.client_id,
-    clientSecret: config.client_secret
+    clientId: axios.get("http://localhost:8888/apival"),
+    clientSecret: axios.get("http://localhost:8888/apisecret")
 });
 
 function Dashbaord() {
@@ -47,58 +46,59 @@ function Dashbaord() {
                 return navigate('/');
             })
 
+        console.log(accessToken, refreshToken, expiresIn)
+    }, [code])
 
+    useEffect(() => {
+        if (!refreshToken || !expiresIn) return
 
-        useEffect(() => {
-            if (!refreshToken || !expiresIn) return
+        const interval = setInterval(() => {
+            console.group('Refreshing...')
+            axios.post('http://localhost:8888/refresh', { refreshToken })
+                .then(res => {
+                    console.log(res.data)
+                    setAccessToken(res.data.accessToken)
+                    setExpiresIn(res.data.expiresIn)
+                    // window.history.pushState({}, null, "/")
+                })
+                .catch(err => {
+                    console.log(err)
+                    return navigate('/');
+                })
+        }, (expiresIn - 60) * 1000)
 
-            const interval = setInterval(() => {
-                console.group('Refreshing...')
-                axios.post('http://localhost:8888/refresh', { refreshToken })
-                    .then(res => {
-                        console.log(res.data)
-                        setAccessToken(res.data.accessToken)
-                        setExpiresIn(res.data.expiresIn)
-                        // window.history.pushState({}, null, "/")
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        return navigate('/');
-                    })
-            }, (expiresIn - 60) * 1000)
+        return () => clearInterval(interval)
+    }, [refreshToken, expiresIn])
 
-            return () => clearInterval(interval)
-        }, [refreshToken, expiresIn])
-
-        function chooseTrack(track) {
-            setTrack(track)
-            setSearchText("")
-        }
-
-        return (
-            <div className="dash">
-                <Header
-                    spotifyApi={spotifyApi}
-                    searchResults={searchResults}
-                    setSearchResults={setSearchResults}
-                    searchText={searchText}
-                    setSearchText={setSearchText}
-                />
-                <div className="dash-header">
-                    <List>
-                        {searchResults.map(track => (
-                            <TrackSearchResult
-                                track={track}
-                                key={track.uri}
-                                chooseTrack={chooseTrack}
-                            />
-                        ))}
-                    </List>
-                    {/* <Player_Premade accessToken={accessToken} trackUri={playingTrack?.uri} /> */}
-                    <Player />
-                </div>
-            </div>
-        );
+    function chooseTrack(track) {
+        setTrack(track)
+        setSearchText("")
     }
+
+    return (
+        <div className="dash">
+            <Header
+                spotifyApi={spotifyApi}
+                searchResults={searchResults}
+                setSearchResults={setSearchResults}
+                searchText={searchText}
+                setSearchText={setSearchText}
+            />
+            <div className="dash-header">
+                <List>
+                    {searchResults.map(track => (
+                        <TrackSearchResult
+                            track={track}
+                            key={track.uri}
+                            chooseTrack={chooseTrack}
+                        />
+                    ))}
+                </List>
+                {/* <Player_Premade accessToken={accessToken} trackUri={playingTrack?.uri} /> */}
+                <Player />
+            </div>
+        </div>
+    );
+}
 
 export default Dashbaord;

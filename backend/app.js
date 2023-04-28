@@ -73,6 +73,12 @@ app.get('/apival', function (req, res) {
     res.send(client_id);
 });
 
+app.get('/apisecret', function (req, res) {
+
+    res.send(client_secret);
+});
+
+
 
 app.post('/login', function (req, res) {
     const code = req.body.code
