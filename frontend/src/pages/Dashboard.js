@@ -1,8 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-<<<<<<< HEAD
-import { Button } from '@mui/material'
-=======
->>>>>>> main
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import PlayerContext from "../context/PlayerContext";
