@@ -10,13 +10,12 @@ import TrackSearchResult from "../components/TrackSearchResults";
 import axios from 'axios'
 import SpotifyWebApi from "spotify-web-api-node";
 import '../styles/dashboard.css'
-import config from "../config";
-import { List , Divider } from "@mui/material"
+import { List, Divider } from "@mui/material"
 
 
 var spotifyApi = new SpotifyWebApi({
-    clientId: config.client_id,
-    clientSecret: config.client_secret
+    clientId: axios.get("http://localhost:8888/apival"),
+    clientSecret: axios.get("http://localhost:8888/apisecret")
 });
 
 function Dashbaord() {
@@ -74,15 +73,15 @@ function Dashbaord() {
     function chooseTrack(track) {
         setTrack(track)
         setSearchText("")
-      }
+    }
 
     return (
         <div className="dash">
-            <Header 
-                spotifyApi={spotifyApi} 
-                searchResults={searchResults} 
-                setSearchResults={setSearchResults} 
-                searchText={searchText} 
+            <Header
+                spotifyApi={spotifyApi}
+                searchResults={searchResults}
+                setSearchResults={setSearchResults}
+                searchText={searchText}
                 setSearchText={setSearchText}
             />
             <div className="dash-header">
@@ -91,7 +90,7 @@ function Dashbaord() {
                         <TrackSearchResult
                             track={track}
                             key={track.uri}
-                            chooseTrack={chooseTrack} 
+                            chooseTrack={chooseTrack}
                         />
                     ))}
                 </List>

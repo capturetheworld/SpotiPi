@@ -14,8 +14,8 @@ function App() {
     const [progress, setProgress] = useState('')
     const [duration, setDuration] = useState('')
     return (
-        <AuthContext.Provider value = {{code, setCode, accessToken, setAccessToken, refreshToken, setRefreshToken, expiresIn, setExpiresIn}}>
-            <PlayerContext.Provider value = {{track, setTrack,progress, setProgress,duration, setDuration}}>
+        <AuthContext.Provider value={{ code, setCode, accessToken, setAccessToken, refreshToken, setRefreshToken, expiresIn, setExpiresIn }}>
+            <PlayerContext.Provider value={{ track, setTrack, progress, setProgress, duration, setDuration }}>
                 <BrowserRouter>
                     <Routes>
                         <Route exact path='/' element={<LandingPage />} />
