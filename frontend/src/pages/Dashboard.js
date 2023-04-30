@@ -10,7 +10,7 @@ import TrackSearchResult from "../components/TrackSearchResults";
 import axios from 'axios'
 import SpotifyWebApi from "spotify-web-api-node";
 import '../styles/dashboard.css'
-import { List, Divider } from "@mui/material"
+import { List, Divider } from "@mui/material";
 
 
 var spotifyApi = new SpotifyWebApi({
