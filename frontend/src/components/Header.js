@@ -52,7 +52,7 @@ function Header({ spotifyApi, searchResults, setSearchResults, searchText, setSe
             <img className='logo' src={logo} alt="logo" />
             <Search className='search' setSearchText={setSearchText} />
             <Button
-                sx={{ color: 'white', backgroundColor: '#04aa6d', height: '50px', width: '100px', marginTop: '10px' }}
+                sx={{ color: 'white', backgroundColor: '#04aa6d', height: '35px', width: '75px', marginTop: '10px' }}
                 onClick={handleClick}
             >
                 Search

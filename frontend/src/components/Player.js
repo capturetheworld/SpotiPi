@@ -10,7 +10,6 @@ import { Slider, Stack } from '@mui/material';
 import albumart from '../pictures/01.png';
 
 
-
 const Player = (props) => {
     const [value, setValue] = useState(0);
     const [info, setInfo] = useState(() => {
