@@ -24,16 +24,17 @@ function LandingPage() {
 		}
 	}, [])
 
-
+	// KEEP SCOPE AS IS
 	let scope = 'user-read-private+user-read-email+user-read-playback-state+user-modify-playback-state';
 
 	async function getID() {
 		const response = await fetch("http://localhost:8888/apival");
 
 		AUTH_URL = "https://accounts.spotify.com/authorize?" +
-			"client_id=" + await response.text() +
-			"&response_type=code" +
-			"&redirect_uri=http://localhost:3000";
+					"client_id=" + await response.text() +
+					"&response_type=code" +
+					"&redirect_uri=http://localhost:3000" + 
+					"&scope=" + scope
 	}
 
 	const login = () => {

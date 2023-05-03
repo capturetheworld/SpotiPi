@@ -200,34 +200,133 @@ app.post('/refresh', function (req, res) {
         })
 });
 
-// app.get('/state', function (req, res) {
-//     var access_token = req.query.access_token;
-//     var options = {
-//         url: 'https://api.spotify.com/v1/me/player',
-//         headers: { 'Authorization': 'Bearer ' + access_token },
-//         json: true
-//     }
-//     console.log(options)
-//     getRequest(options, res)
-// })
+app.get('/get_devices', function (req, res) {
 
-app.put('/play', function (req, res) {
+    var access_token = req.query.access_token;
+    var options = {
+        url: 'https://api.spotify.com/v1/me/player/devices',
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        json: true
+    }
+    console.log()
+
+    request.get(options, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            console.log(body)
+            var devices = body.devices;
+            res.send({
+                'devices': devices
+            });
+        }
+        else {
+            res.send({
+                'error': 'Suffered a fatal error ' + response.statusCode,
+                'spotifyResponse': response
+            })
+        }
+    });
 
 });
 
-app.put('/pause', function (req, res) {
+app.get('/active_device', function (req, res) {
+    var access_token = req.query.access_token;
+    var options = {
+        url: 'https://api.spotify.com/v1/me/player',
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        json: true
+    }
+    console.log(options)
 
+    request.get(options, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            var active_device = body.device.id;
+            console.log(active_device)
+            res.send({
+                'active_device': active_device
+            })
+        }
+        else {
+            res.send({
+                'error': 'Suffered a fatal error ' + error,
+                'spotifyResponse': response
+            })
+        }
+    });
+});
+
+app.get('/state', function (req, res) {
+    var access_token = req.query.access_token;
+    var options = {
+        url: 'https://api.spotify.com/v1/me/player',
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        json: true
+    }
+    console.log(options)
+    getRequest(options, res)
+})
+
+app.put('/play', function (req, res) {
+    var access_token = req.body.access_token;
+
+    var play_options = {
+        url: 'https://api.spotify.com/v1/me/player/play',
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        json: true
+    }
+    console.log(play_options)
+
+    putRequest(play_options, res)
+    // playerControls(req, res, 'play')
+});
+
+app.put('/pause', function (req, res) {
+    var access_token = req.body.access_token;
+    var active_device = req.body.active_device;
+
+    var pause_options = {
+        url: 'https://api.spotify.com/v1/me/player/pause',
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        form: {
+            device_id: active_device
+        },
+        json: true
+    }
+
+    putRequest(pause_options, res)
+    // playerControls(req, res, 'pause')
 })
 
 app.post('/next', function (req, res) {
+    var access_token = req.body.access_token;
+    var active_device = req.body.active_device;
 
+    var next_options = {
+        url: 'https://api.spotify.com/v1/me/player/next',
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        form: {
+            device_id: active_device
+        },
+        json: true
+    }
+    postRequest(next_options, res)
 })
 
 app.post('/previous', function (req, res) {
+    var access_token = req.body.access_token;
+    var active_device = req.body.active_device;
 
+    var next_options = {
+        url: 'https://api.spotify.com/v1/me/player/previous',
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        form: {
+            device_id: active_device
+        },
+        json: true
+    }
+    postRequest(next_options, res)
 })
 
-var getRequest = function (options, res) {
+var getRequest = function(options, res) {
     var statusCode = 500;
     request.get(options, function (error, response, body) {
         if (!error && response.statusCode === 200) {
@@ -243,7 +342,7 @@ var getRequest = function (options, res) {
     })
 }
 
-var putRequest = function (options, res) {
+var putRequest = function(options, res) {
     var statusCode = 500;
     request.put(options, function (error, response, body) {
         if (!error && response.statusCode === 204) {
@@ -259,7 +358,7 @@ var putRequest = function (options, res) {
     });
 }
 
-var postRequest = function (options, res) {
+var postRequest = function(options, res) {
     var statusCode = 500;
     request.post(options, function (error, response, body) {
         if (!error && response.statusCode === 204) {
