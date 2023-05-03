@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import PlayerContext from "../context/PlayerContext";
-import { Button } from '@mui/material'
 import Player from "../components/Player"
 //import Player_Premade from "../components/Player_Premade"
 import Header from "../components/Header";
