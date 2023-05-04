@@ -25,6 +25,7 @@
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "react-seekbar-component": "^1.0.0",
+    "react-simple-keyboard": "^3.5.68",
     "react-slider": "^2.0.4",
     "web-vitals": "^2.1.4"
   },

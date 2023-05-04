@@ -1,13 +1,14 @@
 import { React, useState, useContext, useEffect } from 'react';
 import 'react-seekbar-component/dist/index.css';
-import SeekBar from 'react-seekbar-component';
-import '../styles/player.css';
+
 import AuthContext from "../context/AuthContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faPlay, faForwardFast, faBackwardFast, faVolumeLow, faVolumeHigh, faVolumeMute } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 import { Slider, Stack } from '@mui/material';
 import albumart from '../pictures/01.png';
+import SeekBar from 'react-seekbar-component';
+import '../styles/player.css';
 
 
 const Player = (props) => {
@@ -171,6 +172,7 @@ const Player = (props) => {
 
                 </div>
             </div>
+
 
         </div >
     );
