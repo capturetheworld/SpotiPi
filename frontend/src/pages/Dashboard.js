@@ -34,7 +34,6 @@ function Dashbaord() {
     const [keyboardVisibility, setkeyboardVisibility] = useState(false)
     const [searchText, setSearchText] = useState('');
     const [playingTrack, setPlayingTrack] = useState();
-    const [input, setInput] = useState("");
     const [layout, setLayout] = useState("default");
     const keyboard = useRef();
 
@@ -51,15 +50,15 @@ function Dashbaord() {
     const kblayout = {
         'default': [
             '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-            '{tab} q w e r t y u i o p [ ] \\',
-            '{lock} a s d f g h j k l ; \' {enter}',
+            ' q w e r t y u i o p [ ] \\',
+            ' a s d f g h j k l ; \' {enter}',
             '{shift} z x c v b n m , . / {shift}',
             'hide {space}'
         ],
         'shift': [
             '~ ! @ # $ % ^ &amp; * ( ) _ + {bksp}',
-            '{tab} Q W E R T Y U I O P { } |',
-            '{lock} A S D F G H J K L : " {enter}',
+            ' Q W E R T Y U I O P { } |',
+            ' A S D F G H J K L : " {enter}',
             '{shift} Z X C V B N M &lt; &gt; ? {shift}',
             'hide {space}'
         ]
@@ -114,7 +113,7 @@ function Dashbaord() {
         setSearchText("")
     }
     const onChange = input => {
-        setInput(input);
+        setSearchText(input);
         console.log("Input changed", input);
     };
 
@@ -131,8 +130,8 @@ function Dashbaord() {
 
     const onChangeInput = event => {
         const input = event.target.value;
-        setInput(input);
-        keyboard.current.setInput(input);
+        setSearchText(input);
+        keyboard.current.setSearchText(input);;
     };
 
     return (
