@@ -18,7 +18,7 @@
 }
 
 .dash-link {
-  color: #04AA6D;
+  color: #04aa6d;
 }
 
 @keyframes App-logo-spin {
@@ -28,4 +28,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.simple-keyboard {
+  max-width: 850px;
+  color: rgb(0, 0, 0);
 }

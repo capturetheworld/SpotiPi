@@ -8217,6 +8217,11 @@ react-seekbar-component@^1.0.0:
   resolved "https://registry.npmjs.org/react-seekbar-component/-/react-seekbar-component-1.0.0.tgz"
   integrity sha512-YI8Gjciy4ZQh8LM6OAmWEHFgvPOZXnytYHCZ53tuzydb+zer2IvHJs/UsR0vWMSexzYEFK4pA9RdpSW6q4zOfQ==
 
+react-simple-keyboard@^3.5.68:
+  version "3.5.68"
+  resolved "https://registry.yarnpkg.com/react-simple-keyboard/-/react-simple-keyboard-3.5.68.tgz#91dd76ee11675f271ae2069479a2abf009a1177c"
+  integrity sha512-HjMcG8gd9AgoPFiXAm5EYL0w7V78tDTnWtffXm6aTYl0Qd6dv6HyO376Q6c6FNC63EiOJsvIMb0w4BYkY62jZQ==
+
 react-slider@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-slider/-/react-slider-2.0.4.tgz#21c656ffabc3bb4481cf6b49e6d647baeda83572"
