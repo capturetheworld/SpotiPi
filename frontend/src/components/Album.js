@@ -13,7 +13,7 @@ function Album({ albumImage, artist, title, album }) {
 
             <div className='textContainer'>
                 <div className='fieldContainer'>
-                    <FontAwesomeIcon icon={faMusic} className="fa-lg"/>
+                    <FontAwesomeIcon icon={faMusic} className="fa-lg" />
                     &nbsp;
                     <h5>{title}</h5>
                 </div>

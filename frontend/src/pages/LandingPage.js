@@ -31,10 +31,10 @@ function LandingPage() {
 		const response = await fetch("http://localhost:8888/apival");
 
 		AUTH_URL = "https://accounts.spotify.com/authorize?" +
-					"client_id=" + await response.text() +
-					"&response_type=code" +
-					"&redirect_uri=http://localhost:3000" + 
-					"&scope=" + scope
+			"client_id=" + await response.text() +
+			"&response_type=code" +
+			"&redirect_uri=http://localhost:3000" +
+			"&scope=" + scope
 	}
 
 	const login = () => {
@@ -49,7 +49,7 @@ function LandingPage() {
 			<div className="App-container">
 				<img src={logo} className="App-logo" alt="logo" />
 				<p>Welcome to the beginning of SpotiPi! </p>
-				<Button onClick={login} style={{color: 'white', backgroundColor: '#04aa6d'}}>
+				<Button onClick={login} style={{ color: 'white', backgroundColor: '#04aa6d' }}>
 					Login
 				</Button>
 			</div>
