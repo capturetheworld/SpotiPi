@@ -326,7 +326,7 @@ app.post('/previous', function (req, res) {
     postRequest(next_options, res)
 })
 
-var getRequest = function(options, res) {
+var getRequest = function (options, res) {
     var statusCode = 500;
     request.get(options, function (error, response, body) {
         if (!error && response.statusCode === 200) {
@@ -342,7 +342,7 @@ var getRequest = function(options, res) {
     })
 }
 
-var putRequest = function(options, res) {
+var putRequest = function (options, res) {
     var statusCode = 500;
     request.put(options, function (error, response, body) {
         if (!error && response.statusCode === 204) {
@@ -358,7 +358,7 @@ var putRequest = function(options, res) {
     });
 }
 
-var postRequest = function(options, res) {
+var postRequest = function (options, res) {
     var statusCode = 500;
     request.post(options, function (error, response, body) {
         if (!error && response.statusCode === 204) {

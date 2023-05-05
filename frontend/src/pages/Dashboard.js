@@ -1,22 +1,19 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import 'react-simple-keyboard/build/css/index.css';
-
 import AuthContext from "../context/AuthContext";
 import PlayerContext from "../context/PlayerContext";
-
-
+import Player from "../components/Player"
 //import Player_Premade from "../components/Player_Premade"
 import Header from "../components/Header";
 import TrackSearchResult from "../components/TrackSearchResults";
 import axios from 'axios'
 import SpotifyWebApi from "spotify-web-api-node";
-
 import '../styles/dashboard.css'
+
 import { useNavigate } from "react-router-dom";
 import { List } from "@mui/material";
 import Keyboard from 'react-simple-keyboard';
 
-import Player from "../components/Player"
 
 
 
@@ -25,19 +22,19 @@ var spotifyApi = new SpotifyWebApi({
     clientSecret: axios.get("http://localhost:8888/apisecret")
 });
 
-
-
 function Dashbaord() {
     const { code, accessToken, setAccessToken, refreshToken, setRefreshToken, expiresIn, setExpiresIn } = useContext(AuthContext)
     const { track, setTrack } = useContext(PlayerContext)
-    const [searchResults, setSearchResults] = useState([]);
+    const [searchResults, setSearchResults] = useState([])
     const [keyboardVisibility, setkeyboardVisibility] = useState(false)
     const [searchText, setSearchText] = useState('');
     const [playingTrack, setPlayingTrack] = useState();
     const [layout, setLayout] = useState("default");
     const keyboard = useRef();
 
+
     const showKeyboard = () => {
+        console.log('kb should now be visible');
         setkeyboardVisibility(true);
     }
 
@@ -45,30 +42,30 @@ function Dashbaord() {
         setkeyboardVisibility(false);
     }
 
-    let navigate = useNavigate();
-
     const kblayout = {
         'default': [
             '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
             ' q w e r t y u i o p [ ] \\',
             ' a s d f g h j k l ; \' {enter}',
             '{shift} z x c v b n m , . / {shift}',
-            'hide {space}'
+            '{hide} {space}'
         ],
         'shift': [
             '~ ! @ # $ % ^ &amp; * ( ) _ + {bksp}',
             ' Q W E R T Y U I O P { } |',
             ' A S D F G H J K L : " {enter}',
             '{shift} Z X C V B N M &lt; &gt; ? {shift}',
-            'hide {space}'
+            '{hide} {space}'
         ]
     };
-
+    let navigate = useNavigate();
 
     useEffect(() => {
         if (!accessToken) return
         spotifyApi.setAccessToken(accessToken)
     }, [accessToken])
+
+
 
     useEffect(() => {
         axios.post('http://localhost:8888/login', { code: code })
@@ -112,8 +109,12 @@ function Dashbaord() {
         setTrack(track)
         setSearchText("")
     }
+
     const onChange = input => {
-        setSearchText(input);
+        if (input !== "{shift}" && input !== "{lock}" && input !== "{hide}") {
+            setSearchText(input);
+        }
+
         console.log("Input changed", input);
     };
 
@@ -125,7 +126,7 @@ function Dashbaord() {
     const onKeyPress = button => {
         console.log("Button pressed", button);
         if (button === "{shift}" || button === "{lock}") handleShift();
-        if (button === "hide") hideKeyboard();
+        if (button === "{hide}") hideKeyboard();
     };
 
     const onChangeInput = event => {
@@ -143,7 +144,6 @@ function Dashbaord() {
                 searchText={searchText}
                 setSearchText={setSearchText}
                 showKeyboard={showKeyboard}
-                hideKeyboard={hideKeyboard}
             />
             <div className="dash-header">
                 <List>
