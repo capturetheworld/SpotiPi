@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "start": "concurrently \"yarn workspace frontend start\" \"yarn workspace backend start\" ",
-    "frontend": "yarn workspace frontend start"
+    "frontend": "yarn workspace frontend start",
+    "clean": "rm -r node_modules && rm -r backend/node_modules && frontend/node_modules"
   },
   "devDependencies": {
     "concurrently": "^7.6.0"

@@ -14,12 +14,12 @@ import { useNavigate } from "react-router-dom";
 import { List } from "@mui/material";
 import Keyboard from 'react-simple-keyboard';
 
-
+var backend_uri = window.location.href.split(':')[0] + ':' + window.location.href.split(':')[1] + ":8888";
 
 
 var spotifyApi = new SpotifyWebApi({
-    clientId: axios.get("http://localhost:8888/apival"),
-    clientSecret: axios.get("http://localhost:8888/apisecret")
+    clientId: axios.get(backend_uri + "/apival"),
+    clientSecret: axios.get(backend_uri + "/apisecret")
 });
 
 function Dashbaord() {
@@ -68,7 +68,7 @@ function Dashbaord() {
 
 
     useEffect(() => {
-        axios.post('http://localhost:8888/login', { code: code })
+        axios.post(backend_uri + '/login', { code: code })
             .then(res => {
                 console.log(res.data)
                 setAccessToken(res.data.accessToken)
@@ -89,7 +89,7 @@ function Dashbaord() {
 
         const interval = setInterval(() => {
             console.group('Refreshing...')
-            axios.post('http://localhost:8888/refresh', { refreshToken })
+            axios.post(backend_uri + '/refresh', { refreshToken })
                 .then(res => {
                     console.log(res.data)
                     setAccessToken(res.data.accessToken)

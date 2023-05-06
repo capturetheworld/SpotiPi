@@ -5,11 +5,12 @@ import AuthContext from "../context/AuthContext";
 import { Button } from '@mui/material'
 import '../styles/landing.css';
 
-
+var host_name = window.location.href.split(':')[0] + ':' + window.location.href.split(':')[1];
 
 function LandingPage() {
 
 
+	console.log(host_name);
 	const { setCode } = useContext(AuthContext)
 	let navigate = useNavigate();
 	let AUTH_URL = "";
@@ -28,18 +29,17 @@ function LandingPage() {
 	let scope = 'user-read-private+user-read-email+user-read-playback-state+user-modify-playback-state';
 
 	async function getID() {
-		const response = await fetch("http://localhost:8888/apival");
+		const response = await fetch(host_name + ":8888/apival");
 
 		AUTH_URL = "https://accounts.spotify.com/authorize?" +
 			"client_id=" + await response.text() +
 			"&response_type=code" +
-			"&redirect_uri=http://localhost:3000" +
+			"&redirect_uri=" + host_name + ":3000" +
 			"&scope=" + scope
 	}
 
 	const login = () => {
 		window.location.href = AUTH_URL;
-
 	}
 
 

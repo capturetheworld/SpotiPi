@@ -10,6 +10,8 @@ import '../styles/player.css';
 import { styled } from '@mui/material/styles';
 import Album from './Album';
 
+var backend_uri = window.location.href.split(':')[0] + ':' + window.location.href.split(':')[1] + ":8888"
+
 const PrettoSlider = styled(Slider)({
     color: '#04aa6d',
     height: 8,
@@ -78,7 +80,7 @@ const Player = (props) => {
     }, [accessToken, value]);
 
     const getTrackData = () => {
-        axios.get(`http://localhost:8888/state`, {
+        axios.get(backend_uri + `/state`, {
             params: {
                 access_token: accessToken
             }
@@ -119,7 +121,7 @@ const Player = (props) => {
 
         var activeDevice;
 
-        axios.get(`http://localhost:8888/active_device`, {
+        axios.get(backend_uri + `/active_device`, {
             params: {
                 access_token: accessToken
             }
@@ -128,7 +130,7 @@ const Player = (props) => {
             activeDevice = response.data['active_device']
 
             if (playing) {
-                axios.put('http://localhost:8888/pause', {
+                axios.put(backend_uri + '/pause', {
                     access_token: accessToken,
                     active_device: activeDevice,
                 }).then(function (response) {
@@ -136,7 +138,7 @@ const Player = (props) => {
                 })
             }
             else {
-                axios.put('http://localhost:8888/play', {
+                axios.put(backend_uri + '/play', {
                     access_token: accessToken,
                     active_device: activeDevice,
                 }).then(function (response) {
@@ -149,14 +151,14 @@ const Player = (props) => {
     const nextTrack = () => {
         var activeDevice;
 
-        axios.get(`http://localhost:8888/active_device`, {
+        axios.get(backend_uri + `/active_device`, {
             params: {
                 access_token: accessToken
             }
         }).then(function (response) {
             console.log(response.data);
             activeDevice = response.data['active_device']
-            axios.post('http://localhost:8888/next', {
+            axios.post(backend_uri + '/next', {
                 access_token: accessToken,
                 active_device: activeDevice,
             }).then(function (response) {
@@ -169,14 +171,14 @@ const Player = (props) => {
     const previousTrack = () => {
         var activeDevice;
 
-        axios.get(`http://localhost:8888/active_device`, {
+        axios.get(backend_uri + `/active_device`, {
             params: {
                 access_token: accessToken
             }
         }).then(function (response) {
             console.log(response.data);
             activeDevice = response.data['active_device']
-            axios.post('http://localhost:8888/previous', {
+            axios.post(backend_uri + '/previous', {
                 access_token: accessToken,
                 active_device: activeDevice,
             }).then(function (response) {
