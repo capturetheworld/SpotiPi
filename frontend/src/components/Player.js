@@ -85,7 +85,7 @@ const Player = (props) => {
                 access_token: accessToken
             }
         }).then(function (res) {
-            console.log(res.data);
+            // console.log(res.data);
             setisPlaying(res.data.is_playing)
             setPlayingTrack({
                 songName: res.data.item.name,
@@ -104,7 +104,7 @@ const Player = (props) => {
                     label: millisToMinutesAndSeconds(res.data.item.duration_ms),
                 },
             ])
-            console.log(res.data.progress_ms, res.data.item.duration_ms, parseInt(res.data.progress_ms / res.data.item.duration_ms * 100))
+            // console.log(res.data.progress_ms, res.data.item.duration_ms, parseInt(res.data.progress_ms / res.data.item.duration_ms * 100))
         })
     }
 
@@ -117,7 +117,7 @@ const Player = (props) => {
     const togglePlaying = () => {
         setisPlaying((currValue) => !currValue);
 
-        console.log(accessToken)
+        // console.log(accessToken)
 
         var activeDevice;
 
@@ -126,7 +126,7 @@ const Player = (props) => {
                 access_token: accessToken
             }
         }).then(function (response) {
-            console.log(response.data);
+            // console.log(response.data);
             activeDevice = response.data['active_device']
 
             if (playing) {
@@ -156,7 +156,7 @@ const Player = (props) => {
                 access_token: accessToken
             }
         }).then(function (response) {
-            console.log(response.data);
+            // console.log(response.data);
             activeDevice = response.data['active_device']
             axios.post(backend_uri + '/next', {
                 access_token: accessToken,
@@ -176,7 +176,7 @@ const Player = (props) => {
                 access_token: accessToken
             }
         }).then(function (response) {
-            console.log(response.data);
+            // console.log(response.data);
             activeDevice = response.data['active_device']
             axios.post(backend_uri + '/previous', {
                 access_token: accessToken,

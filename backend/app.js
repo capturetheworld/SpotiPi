@@ -95,7 +95,7 @@ app.post('/login', function (req, res) {
 });
 
 app.post('/refresh', function (req, res) {
-    console.log('hi')
+    // console.log('hi')
     const refreshToken = req.body.refreshToken
 
     const spotifyApi = new SpotifyWebApi({
@@ -130,7 +130,7 @@ app.get('/get_devices', function (req, res) {
 
     request.get(options, function (error, response, body) {
         if (!error && response.statusCode === 200) {
-            console.log(body)
+            // console.log(body)
             var devices = body.devices;
             res.send({
                 'devices': devices
@@ -153,12 +153,12 @@ app.get('/active_device', function (req, res) {
         headers: { 'Authorization': 'Bearer ' + access_token },
         json: true
     }
-    console.log(options)
+    // console.log(options)
 
     request.get(options, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             var active_device = body.device.id;
-            console.log(active_device)
+            // console.log(active_device)
             res.send({
                 'active_device': active_device
             })
@@ -179,7 +179,7 @@ app.get('/state', function (req, res) {
         headers: { 'Authorization': 'Bearer ' + access_token },
         json: true
     }
-    console.log(options)
+    // console.log(options)
     getRequest(options, res)
 })
 
@@ -191,7 +191,7 @@ app.put('/play', function (req, res) {
         headers: { 'Authorization': 'Bearer ' + access_token },
         json: true
     }
-    console.log(play_options)
+    // console.log(play_options)
 
     putRequest(play_options, res)
     // playerControls(req, res, 'play')
@@ -244,17 +244,38 @@ app.post('/previous', function (req, res) {
     postRequest(next_options, res)
 })
 
+app.post('/addToQ', function (req, res) {
+    var access_token = req.body.access_token;
+    var active_device = req.body.active_device;
+    var tURI = encodeURIComponent(req.body.trackURI);
+
+     //console.log("adding 1 ", tURI)
+
+
+    var next_options = {
+        url: 'https://api.spotify.com/v1/me/player/queue?' + 'uri='+tURI,
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        form: {
+            device_id: active_device,
+            uri: tURI
+        },
+        json: true
+    }
+    //console.log("adding 2 ", tURI)
+    postRequest(next_options, res)
+})
+
 var getRequest = function (options, res) {
     var statusCode = 500;
     request.get(options, function (error, response, body) {
         if (!error && response.statusCode === 200) {
-            console.log(body)
+            // console.log(body)
             statusCode = 200
         }
         else {
             // console.log("Error: " + error)
             // console.log(response)
-            console.log("Failed to get valid request")
+            // console.log("Failed to get valid request")
         }
         res.status(statusCode).send(body)
     })
@@ -264,7 +285,7 @@ var putRequest = function (options, res) {
     var statusCode = 500;
     request.put(options, function (error, response, body) {
         if (!error && response.statusCode === 204) {
-            console.log(body)
+            // console.log(body)
             statusCode = 204
         }
         else {
@@ -280,13 +301,14 @@ var postRequest = function (options, res) {
     var statusCode = 500;
     request.post(options, function (error, response, body) {
         if (!error && response.statusCode === 204) {
-            console.log(body)
+            // console.log(body)
             statusCode = 204
         }
         else {
-            console.log("Error: " + error)
+            console.log("Error while posting: " + error)
             console.log(response.statusCode)
             console.log(response.rawHeaders)
+            console.log(options)
         }
         res.status(statusCode).send(body)
     });

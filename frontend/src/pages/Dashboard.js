@@ -70,7 +70,7 @@ function Dashbaord() {
     useEffect(() => {
         axios.post(backend_uri + '/login', { code: code })
             .then(res => {
-                console.log(res.data)
+                //console.log(res.data)
                 setAccessToken(res.data.accessToken)
                 setRefreshToken(res.data.refreshToken)
                 setExpiresIn(res.data.expiresIn)
@@ -91,7 +91,7 @@ function Dashbaord() {
             console.group('Refreshing...')
             axios.post(backend_uri + '/refresh', { refreshToken })
                 .then(res => {
-                    console.log(res.data)
+                    // console.log(res.data)
                     setAccessToken(res.data.accessToken)
                     setExpiresIn(res.data.expiresIn)
                     // window.history.pushState({}, null, "/")
