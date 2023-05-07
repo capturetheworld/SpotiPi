@@ -4,10 +4,10 @@ Server-client based Spotify control
 ## Setup
 0. You would need to create an Spotify for Developers App with a premium account, with the redirect_urls configured like:
 
-http://<machine name>:3000
-http://<machine name>:3000/dashboard
-http://<machine name>:8888
-http://<machine name>:8888/callback
+http://\<machine name\>:3000
+http://\<machine name\>:3000/dashboard
+http://\<machine name\>:8888
+http://\<machine name\>:8888/callback
 
 Also add the user with the right email ID under 'User Management' tab on the Spotify account settings page.
 
