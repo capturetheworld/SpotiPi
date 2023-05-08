@@ -29,16 +29,17 @@ export default function TrackSearchResult({ track, chooseTrack }) {
                 trackURI: track.uri
             })
         })
+
     }
 
     return (
         <ListItem
             style={{ cursor: "pointer" }}
-            onContextMenu={ (e) => {
-                e.preventDefault();
-                // console.log("Right Click", e.pageX, e.pageY);
-                setClicked(true)
+            onClick ={ (e) => {
+                //e.preventDefault();
+                setClicked(!clicked)
                 setPoints(e.pageX, e.pageY)
+                // console.log("Menu Click", e.pageX, e.pageY, clicked);
             }}
         >
             <ListItemAvatar>
