@@ -7,10 +7,10 @@ import axios from 'axios';
 
 const backend_uri = window.location.href.split(':')[0] + ':' + window.location.href.split(':')[1] + ":8888"
 
-export default function TrackSearchResult({ track, chooseTrack }) {
+export default function TrackSearchResult({ track, chooseTrack, setSearchText }) {
 
     const { clicked, setClicked, points, setPoints } = useContextMenu();
-    const { code, accessToken, setAccessToken, refreshToken, setRefreshToken, expiresIn, setExpiresIn } = useContext(AuthContext);
+    const { accessToken } = useContext(AuthContext);
 
     function addToQueue(){
         var activeDevice;
@@ -27,7 +27,9 @@ export default function TrackSearchResult({ track, chooseTrack }) {
                 access_token: accessToken,
                 active_device: activeDevice,
                 trackURI: track.uri
-            })
+            }).then(
+                setSearchText('')
+            )
         })
 
     }

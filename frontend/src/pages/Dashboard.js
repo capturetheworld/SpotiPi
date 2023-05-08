@@ -152,6 +152,7 @@ function Dashbaord() {
                             track={track}
                             key={track.uri}
                             chooseTrack={chooseTrack}
+                            setSearchText={setSearchText}
                         />
                     ))}
                 </List>

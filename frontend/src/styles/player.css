@@ -67,6 +67,14 @@
   height: 20vw;
 }
 
+.messageContainer {
+  min-height: 25vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 10px 10px 10px;
+}
+
 h3,
 h5,
 p {
